@@ -13,5 +13,5 @@ RUN cd $PROJECT_DIR &&  go build -o $GOPATH/bin/$PROJECT ./$PROJECT/main.go
 
 FROM denismakogon/gocv-runtime:edge
 
-COPY --from=build-stage /go/bin/$PROJECT /main
-ENTRYPOINT ["/main"]
+COPY --from=build-stage /go/bin/$PROJECT /$PROJECT
+ENTRYPOINT ["/$PROJECT"]
