@@ -5,6 +5,7 @@ import (
 	"image"
 	"image/color"
 	"gocv.io/x/gocv"
+	"strings"
 )
 
 var (
@@ -44,10 +45,10 @@ func main() {
 		for _, r := range rects {
 			gocv.Rectangle(&img, r, blue, 3)
 			
-			//size := gocv.GetTextSize("Human", gocv.FontHersheyPlain, 1.2, 2)
-            pt := image.Pt(r.Min.X, r.Min.Y-2)
+			size := gocv.GetTextSize("Human", gocv.FontHersheyPlain, 1.2, 2)
+            pt := image.Pt(r.Min.X+(r.Min.X/2)-(size.X/2), r.Min.Y-2)
             gocv.PutText(&img, "Human", pt, gocv.FontHersheyPlain, 1.2, blue, 2)
 		}
-		gocv.IMWrite(pathToImage, img)
+		gocv.IMWrite(strings.Replace(pathToImage, ".jpg", "_result.jpg", 1), img)
 	}
 }
