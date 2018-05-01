@@ -6,22 +6,26 @@ import (
 	"image/color"
 	"gocv.io/x/gocv"
 	"strings"
+	"io/ioutil"
+	"path/filepath"
 )
 
 var (
 	PathToHaar = "/images/haarcascade_frontalface_default.xml"
-	PathsToImages = []string{
-		"/images/frontalface.jpg",
-		"/images/frontalface_smile.jpg",
-		"/images/sideface.jpg",
-	}
+	PathToImages = "/images/facedetect"
 )
 
 func main() {
 
 	// open webcam
-	for _, pathToImage := range PathsToImages {
-		img := gocv.IMRead(pathToImage, gocv.IMReadColor)
+	files, err := ioutil.ReadDir(PathToImages)
+    if err != nil {
+        panic(err)
+    }
+	
+	for _, fileInfo := range files {
+		file := filepath.Join(PathToImages, fileInfo.Name())
+		img := gocv.IMRead(file, gocv.IMReadColor)
 		defer img.Close()
 		
 		// color for the rect when faces detected
@@ -49,6 +53,6 @@ func main() {
             pt := image.Pt(r.Min.X+(r.Min.X/2)-(size.X/2), r.Min.Y-2)
             gocv.PutText(&img, "Human", pt, gocv.FontHersheyPlain, 1.2, blue, 2)
 		}
-		gocv.IMWrite(strings.Replace(pathToImage, ".jpg", "_result.jpg", 1), img)
+		gocv.IMWrite(strings.Replace(file, ".jpg", "_result.jpg", 1), img)
 	}
 }
