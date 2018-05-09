@@ -53,6 +53,9 @@ func main() {
 	allowedExt := []string{".jpg", ".png", ".JPG", ".PNG"}
 	
     err := filepath.Walk(PathToImages, func(path string, info os.FileInfo, err error) error {
+    	if err != nil {
+			return err
+		}
     	if info.IsDir() {
 			return nil
 		}
