@@ -45,7 +45,7 @@ func detect(path string, info os.FileInfo) {
 		gocv.PutText(&img, "Human", pt, gocv.FontHersheyPlain, 1.2, blue, 2)
 	}
 	
-	gocv.IMWrite(strings.Replace(path, info.Name(), strings.Join([]string{"out", info.Name()}, "_"), 1), img)
+	gocv.IMWrite(strings.Replace(path, info.Name(), strings.Join([]string{"out", info.Name()}, "/"), 1), img)
 }
 
 func main() {
